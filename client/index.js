@@ -75,7 +75,7 @@ async function handleClickDeleteButton(bookId) {
 
     //panggil function deleteBook dengan parameter bookId
     // TODO: answer here
-    deleteBook(bookId);
+    await deleteBook(bookId);
     loadPage();
   } catch (error) {
     console.log(error);
@@ -159,7 +159,7 @@ async function handleAddForm(event) {
 
     // panggil function addBook dengan parameter book
     // TODO: answer here
-    addBook(book);
+    await addBook(book);
 
     currentPage = "home";
     loadPage();
@@ -308,13 +308,16 @@ async function addBook(book) {
       body yang dikirim adalah book yang dikirimkan sebagai parameter function
     */
     // TODO: answer here
-    await fetch(`http://localhost:3333/books`, {
+    const res = await fetch(`http://localhost:3333/books`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(book),
     });
+
+    const result = await res.json();
+    return result;
   } catch (error) {
     console.log(error);
     console.log("Terjadi kesalahan saat menambah buku");
@@ -348,9 +351,11 @@ async function deleteBook(bookId) {
       id buku yang akan dihapus dikirimkan sebagai parameter function
     */
     // TODO: answer here
-    await fetch(`http://localhost:3333/books/${bookId}`, {
+    const res = await fetch(`http://localhost:3333/books/${bookId}`, {
       method: "DELETE",
     });
+    const result = await res.json();
+    return result;
   } catch (error) {
     console.log(error);
     console.log("Terjadi kesalahan saat menghapus buku");
